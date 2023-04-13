@@ -1,18 +1,22 @@
 import { useEffect, useMemo, useState } from "react";
 import ICompany from "../models/Company";
 import { companyService } from "../services/company.service";
-import MaterialReactTable, {
-  MRT_ColumnDef,
-  MRT_Row,
-} from "material-react-table";
+import MaterialReactTable, { MRT_ColumnDef } from "material-react-table";
 import TableButtons from "../components/molecules/TableButtons";
 import { Button } from "react-bootstrap";
+import CompanyModal from "../components/organisms/CompanyModal";
 
 const Company = () => {
   const [companies, setCompanies] = useState<ICompany[]>([]);
+  const [showModal, setShowModal] = useState(false);
+  const [actionId, setActionId] = useState<string | undefined | null>(null);
+
+  const fetchData = () => {
+    companyService.getAll().then((data) => setCompanies(data));
+  };
 
   useEffect(() => {
-    companyService.getAll().then((data) => setCompanies(data));
+    fetchData();
 
     return () => {};
   }, []);
@@ -39,6 +43,21 @@ const Company = () => {
     []
   );
 
+  const handleModal = () => {
+    setShowModal((previous) => !previous);
+    setActionId(null);
+  };
+
+  const onSave = () => {
+    setShowModal(false);
+    fetchData();
+  };
+
+  const handleEditButton = (id?: string) => {
+    setActionId(id);
+    setShowModal(true);
+  };
+
   return (
     <div>
       <MaterialReactTable
@@ -50,14 +69,25 @@ const Company = () => {
         renderRowActions={({ row }) => (
           <TableButtons
             deleteOnClick={() => console.log(row.original.id)}
-            editOnClick={() => console.log(row.original.id)}
+            editOnClick={() => handleEditButton(row.original.id)}
           />
         )}
         renderTopToolbarCustomActions={() => (
-          <Button type="button" variant="outline-success center">
+          <Button
+            type="button"
+            variant="outline-success center"
+            onClick={handleModal}
+          >
             Add Company
           </Button>
         )}
+      />
+      <CompanyModal
+        onCancel={handleModal}
+        onHide={handleModal}
+        onSave={onSave}
+        show={showModal}
+        id={actionId}
       />
     </div>
   );
