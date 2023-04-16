@@ -8,6 +8,8 @@ export const companyService = {
   get,
   update,
   getAsDropdown,
+  getCompanyQuantity,
+  getLastAddedCompanies,
 };
 
 async function getAll() {
@@ -48,4 +50,25 @@ async function getAsDropdown() {
   ].sort();
 
   return companiesDropdown;
+}
+
+async function getCompanyQuantity() {
+  const companies: ICompany[] = await getAll();
+
+  return companies.length;
+}
+
+async function getLastAddedCompanies() {
+  const companies: ICompany[] = await getAll();
+
+  return companies
+    .sort(function (a, b) {
+      if (a.createdDate && b.createdDate)
+        return (
+          new Date(b.createdDate).getTime() - new Date(a.createdDate).getTime()
+        );
+
+      return 0;
+    })
+    .slice(0, 5);
 }

@@ -1,7 +1,14 @@
 import axios from "axios";
 import IProduct from "../models/Product";
 
-export const productService = { getAll, create, get, remove, update };
+export const productService = {
+  getAll,
+  create,
+  get,
+  remove,
+  update,
+  getProductQuantity,
+};
 
 async function getAll() {
   return axios
@@ -33,4 +40,10 @@ async function update(product: IProduct) {
     `${import.meta.env.VITE_PRODUCT_MOCK_API_URL}/product/${product.id}`,
     product
   );
+}
+
+async function getProductQuantity() {
+  const products: IProduct[] = await getAll();
+
+  return products.length;
 }
