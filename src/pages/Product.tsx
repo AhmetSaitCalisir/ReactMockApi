@@ -4,12 +4,19 @@ import IProduct from "../models/Product";
 import MaterialReactTable, { MRT_ColumnDef } from "material-react-table";
 import TableButtons from "../components/molecules/TableButtons";
 import { Button } from "react-bootstrap";
+import ProductModal from "../components/organisms/ProductModal";
 
 const Product = () => {
   const [products, setProducts] = useState<IProduct[]>([]);
+  const [showModal, setShowModal] = useState(false);
+  const [actionId, setActionId] = useState<string | undefined | null>(null);
+
+  const fetchData = () => {
+    productService.getAll().then((data) => setProducts(data));
+  };
 
   useEffect(() => {
-    productService.getAll().then((data) => setProducts(data));
+    fetchData();
 
     return () => {};
   }, []);
@@ -36,6 +43,26 @@ const Product = () => {
     []
   );
 
+  const handleModal = () => {
+    setShowModal((previous) => !previous);
+    setActionId(null);
+  };
+
+  const onSave = () => {
+    setShowModal(false);
+    fetchData();
+  };
+
+  const handleEditButton = (id?: string) => {
+    setActionId(id);
+    setShowModal(true);
+    console.log(id);
+  };
+
+  const handleDelete = (id?: string) => {
+    if (id) productService.remove(id).then(fetchData);
+  };
+
   return (
     <div>
       <MaterialReactTable
@@ -47,14 +74,25 @@ const Product = () => {
         renderRowActions={({ row }) => (
           <TableButtons
             deleteOnClick={() => console.log(row.original.id)}
-            editOnClick={() => console.log(row.original.id)}
+            editOnClick={() => handleEditButton(row.original.id)}
           />
         )}
         renderTopToolbarCustomActions={() => (
-          <Button type="button" variant="outline-success center">
+          <Button
+            type="button"
+            variant="outline-success center"
+            onClick={() => handleModal()}
+          >
             Add Product
           </Button>
         )}
+      />
+      <ProductModal
+        onCancel={handleModal}
+        onHide={handleModal}
+        onSave={onSave}
+        show={showModal}
+        id={actionId}
       />
     </div>
   );

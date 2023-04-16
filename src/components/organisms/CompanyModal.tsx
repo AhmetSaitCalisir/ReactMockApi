@@ -60,7 +60,9 @@ const CompanyModal = (props: IProps) => {
   return (
     <Modal show={props.show} onHide={props.onHide}>
       <Modal.Header closeButton>
-        <Modal.Title>Create Company</Modal.Title>
+        <Modal.Title>
+          {props.id ? "Edit Company" : "Create Company"}
+        </Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={handleSubmit}>

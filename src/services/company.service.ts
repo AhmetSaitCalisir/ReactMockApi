@@ -1,7 +1,14 @@
 import axios from "axios";
 import ICompany from "../models/Company";
 
-export const companyService = { getAll, create, remove, get, update };
+export const companyService = {
+  getAll,
+  create,
+  remove,
+  get,
+  update,
+  getAsDropdown,
+};
 
 async function getAll() {
   return axios
@@ -28,4 +35,17 @@ async function update(company: ICompany) {
     `${import.meta.env.VITE_MOCK_API_URL}/companies/${company.id}`,
     company
   );
+}
+
+async function getAsDropdown() {
+  const companies: ICompany[] = await getAll();
+  const companiesDropdown = [
+    ...new Set(
+      companies.map((company) => {
+        return { label: company.name, value: company.id };
+      })
+    ),
+  ].sort();
+
+  return companiesDropdown;
 }
