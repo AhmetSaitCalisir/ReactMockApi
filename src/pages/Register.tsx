@@ -1,8 +1,10 @@
 import { Button, Form, Input } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import IRegisterUser from "../models/RegisterUser";
 import { authService } from "../services/auth.service";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { register } from "../stores/auth";
 
 const Register = () => {
   const [registerUser, setRegisterUser] = useState<IRegisterUser>({
@@ -11,6 +13,8 @@ const Register = () => {
     username: "",
   });
   const navigate = useNavigate();
+  const authUser = useSelector((state: any) => state.auth.authUser);
+  const dispatch = useDispatch<any>();
 
   const handleOnChange = ({ name, value }: { name: string; value: any }) => {
     setRegisterUser((previous) => ({
@@ -21,15 +25,14 @@ const Register = () => {
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (registerUser.password !== registerUser.passwordMatch) {
-      console.log("Hata mesajı");
-      return;
-    }
-
-    authService.register(registerUser).then(() => {
-      navigate("/");
-    });
+    dispatch(register(registerUser));
   };
+
+  useEffect(() => {
+    if (authUser) navigate("/");
+
+    return () => {};
+  }, [authUser]);
 
   return (
     <div className="form-container">

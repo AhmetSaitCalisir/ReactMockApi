@@ -1,13 +1,15 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import Brand from "../../assets/brand.svg";
-import { authService } from "../../services/auth.service";
+import { useDispatch } from "react-redux";
+import { logout } from "../../stores/auth";
 
 const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const dispatch = useDispatch<any>();
 
   const handleLogout = () => {
-    authService.logout().then(() => navigate("login"));
+    dispatch(logout());
   };
 
   return (

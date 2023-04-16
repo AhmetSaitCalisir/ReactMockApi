@@ -1,22 +1,19 @@
 import { Form, Input, Button } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import IAuthUser from "../models/AuthUser";
-import { authService } from "../services/auth.service";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../stores/auth";
 
 const Login = () => {
   const [user, setUser] = useState<IAuthUser>({ password: "", username: "" });
   const navigate = useNavigate();
+  const authUser = useSelector((state: any) => state.auth.authUser);
+  const dispatch = useDispatch<any>();
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
-    authService
-      .login(user)
-      .then(() => {
-        navigate("/");
-      })
-      .catch(() => console.log("Hata mesajı"));
+    dispatch(login(user));
   };
 
   const handleOnChange = ({ name, value }: { name: string; value: any }) => {
@@ -25,6 +22,12 @@ const Login = () => {
       [name]: value,
     }));
   };
+
+  useEffect(() => {
+    if (authUser) navigate("/");
+
+    return () => {};
+  }, [authUser]);
 
   return (
     <div className="form-container">

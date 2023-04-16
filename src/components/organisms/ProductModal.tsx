@@ -40,7 +40,6 @@ const ProductModal = (props: IProps) => {
   };
 
   const handleOnChange = ({ name, value }: { name: string; value: any }) => {
-    console.log(name, value);
     setProduct((previous) => ({
       ...previous,
       [name]: value,

@@ -26,9 +26,9 @@ async function login(user: IAuthUser) {
 async function register(user: IAuthUser) {
   return axios
     .post(`${import.meta.env.VITE_MOCK_API_URL}/users`, user)
-    .then((response) => {
+    .then(() => {
       localStorage.setItem("X-Username", user.username);
-      return response;
+      return user;
     });
 }
 
