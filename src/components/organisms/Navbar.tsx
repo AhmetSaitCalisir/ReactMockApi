@@ -1,10 +1,15 @@
-import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Brand from "../../assets/brand.svg";
+import { authService } from "../../services/auth.service";
 
 const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
+
+  const handleLogout = () => {
+    authService.logout().then(() => navigate("login"));
+  };
+
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <div className="container-fluid">
@@ -48,7 +53,11 @@ const Navbar = () => {
             </li>
           </ul>
           <form className="d-flex">
-            <button className="btn btn-outline-dark" type="submit">
+            <button
+              className="btn btn-outline-dark"
+              type="button"
+              onClick={handleLogout}
+            >
               Logout
             </button>
           </form>

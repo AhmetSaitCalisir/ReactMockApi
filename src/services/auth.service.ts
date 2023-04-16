@@ -18,9 +18,9 @@ async function login(user: IAuthUser) {
 
   if (match) {
     localStorage.setItem("X-Username", user.username);
+    return match;
   }
-
-  return !!match;
+  throw new Error("No_User");
 }
 
 async function register(user: IAuthUser) {
