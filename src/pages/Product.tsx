@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { productService } from "../services/product.service";
 import IProduct from "../models/Product";
 import MaterialReactTable, { MRT_ColumnDef } from "material-react-table";

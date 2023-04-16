@@ -2,6 +2,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Brand from "../../assets/brand.svg";
 import { useDispatch } from "react-redux";
 import { logout } from "../../stores/auth";
+import { BiLogOut } from "react-icons/bi";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -56,11 +57,11 @@ const Navbar = () => {
           </ul>
           <form className="d-flex">
             <button
-              className="btn btn-outline-dark"
+              className="btn btn-outline-dark logoutButton"
               type="button"
               onClick={handleLogout}
             >
-              Logout
+              <BiLogOut />
             </button>
           </form>
         </div>

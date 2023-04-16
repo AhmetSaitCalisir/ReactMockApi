@@ -18,3 +18,14 @@
 .navbar-brand {
   width: 45px;
 }
+
+.logoutButton {
+  display: flex !important;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  align-self: center;
+  padding: 10px !important;
+}

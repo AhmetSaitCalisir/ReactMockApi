@@ -1,5 +1,5 @@
 import { Button } from "react-bootstrap";
-import { BiEdit, BiToggleLeft, BiToggleRight, BiTrash } from "react-icons/bi";
+import { BiEdit, BiTrash } from "react-icons/bi";
 
 type IProps = {
   editOnClick?: React.MouseEventHandler<HTMLButtonElement> | undefined;

@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
 import { companyService } from "../services/company.service";
 import ICompany from "../models/Company";
-import { Table } from "react-bootstrap";
 import LastAddedTable from "../components/organisms/LastAddedTable";
-import { Card, Statistic } from "antd";
 import { productService } from "../services/product.service";
 import CustomKpi from "../components/organisms/CustomKpi";
 

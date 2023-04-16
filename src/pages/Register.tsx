@@ -1,7 +1,6 @@
 import { Button, Form, Input } from "antd";
 import { useEffect, useState } from "react";
 import IRegisterUser from "../models/RegisterUser";
-import { authService } from "../services/auth.service";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { register } from "../stores/auth";
