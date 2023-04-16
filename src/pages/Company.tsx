@@ -58,6 +58,10 @@ const Company = () => {
     setShowModal(true);
   };
 
+  const handleDelete = (id?: string) => {
+    if (id) companyService.remove(id).then(fetchData);
+  };
+
   return (
     <div>
       <MaterialReactTable
@@ -68,7 +72,7 @@ const Company = () => {
         positionActionsColumn="last"
         renderRowActions={({ row }) => (
           <TableButtons
-            deleteOnClick={() => console.log(row.original.id)}
+            deleteOnClick={() => handleDelete(row.original.id)}
             editOnClick={() => handleEditButton(row.original.id)}
           />
         )}
