@@ -44,8 +44,6 @@ const CompanyModal = (props: IProps) => {
     return () => {};
   }, [props.show]);
 
-  const [validated, setValidated] = useState(false);
-
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     const form = event.currentTarget;
     event.preventDefault();
@@ -54,7 +52,6 @@ const CompanyModal = (props: IProps) => {
     }
     if (props.id) companyService.update(company).then(() => props.onSave());
     else companyService.create(company).then(() => props.onSave());
-    setValidated(true);
   };
 
   return (
@@ -130,8 +127,8 @@ const CompanyModal = (props: IProps) => {
             <Button variant="secondary" type="button" onClick={props.onCancel}>
               Close
             </Button>
-            <Button variant="primary" type="submit">
-              Save Changes
+            <Button variant={props.id ? "success" : "primary"} type="submit">
+              {props.id ? "Save Changes" : "Create"}
             </Button>
           </Modal.Footer>
         </Form>

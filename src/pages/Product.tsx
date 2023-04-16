@@ -56,7 +56,6 @@ const Product = () => {
   const handleEditButton = (id?: string) => {
     setActionId(id);
     setShowModal(true);
-    console.log(id);
   };
 
   const handleDelete = (id?: string) => {
@@ -73,7 +72,7 @@ const Product = () => {
         positionActionsColumn="last"
         renderRowActions={({ row }) => (
           <TableButtons
-            deleteOnClick={() => console.log(row.original.id)}
+            deleteOnClick={() => handleDelete(row.original.id)}
             editOnClick={() => handleEditButton(row.original.id)}
           />
         )}

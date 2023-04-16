@@ -1,9 +1,8 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { Button, Form, Modal } from "react-bootstrap";
+import { Button, Form, InputGroup, Modal } from "react-bootstrap";
 import IProduct from "../../models/Product";
 import { productService } from "../../services/product.service";
 import { companyService } from "../../services/company.service";
-import CurrencyList from "currency-list";
 import { extensionMethods } from "../../helpers/extensionMethods";
 
 type IProps = {
@@ -57,7 +56,7 @@ const ProductModal = (props: IProps) => {
         category: "",
         companyId: "",
         name: "",
-        unit: "",
+        unit: "₺",
       });
 
     if (props.show && props.id)
@@ -94,6 +93,20 @@ const ProductModal = (props: IProps) => {
               Product Name is required!
             </Form.Control.Feedback>
           </Form.Group>
+          <Form.Group className="mb-3" controlId="category">
+            <Form.Label>Product Category</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Please Enter the Product Category"
+              value={product.category}
+              name="category"
+              onChange={({ target }) => handleOnChange(target)}
+              required
+            />
+            <Form.Control.Feedback type="invalid">
+              Product Category is required!
+            </Form.Control.Feedback>
+          </Form.Group>
           <Form.Group className="mb-3" controlId="company">
             <Form.Label>Company</Form.Label>
             <Form.Select
@@ -114,43 +127,36 @@ const ProductModal = (props: IProps) => {
             </Form.Control.Feedback>
           </Form.Group>
           <Form.Group className="mb-3" controlId="name">
-            <Form.Label>Amaount</Form.Label>
-            <Form.Control
-              type="number"
-              value={product.amount}
-              name="amaount"
-              onChange={({ target }) => handleOnChange(target)}
-              required
-            />
-            <Form.Control.Feedback type="invalid">
-              Product Amaount is required!
-            </Form.Control.Feedback>
-          </Form.Group>
-          <Form.Group className="mb-3" controlId="unit">
-            <Form.Label>Unit</Form.Label>
-            <Form.Select
-              aria-label="Unit"
-              onChange={({ target }) => handleOnChange(target)}
-              value={product.unit}
-              name="unit"
-              required
-            >
-              {currencyOptions.map((currency, index) => (
-                <option key={index} value={currency.value}>
-                  {currency.label}
-                </option>
-              ))}
-            </Form.Select>
-            <Form.Control.Feedback type="invalid">
-              Unit of Amount is required!
-            </Form.Control.Feedback>
+            <Form.Label>Amount</Form.Label>
+            <InputGroup>
+              <Form.Control
+                type="number"
+                value={product.amount}
+                name="amount"
+                onChange={({ target }) => handleOnChange(target)}
+                required
+              />
+              <Form.Select
+                aria-label="Unit"
+                onChange={({ target }) => handleOnChange(target)}
+                value={product.unit}
+                name="unit"
+                required
+              >
+                {currencyOptions.map((currency, index) => (
+                  <option key={index} value={currency.value}>
+                    {currency.label}
+                  </option>
+                ))}
+              </Form.Select>
+            </InputGroup>
           </Form.Group>
           <Modal.Footer>
             <Button variant="secondary" type="button" onClick={props.onCancel}>
               Close
             </Button>
-            <Button variant="primary" type="submit">
-              Save Changes
+            <Button variant={props.id ? "success" : "primary"} type="submit">
+              {props.id ? "Save Changes" : "Create"}
             </Button>
           </Modal.Footer>
         </Form>
